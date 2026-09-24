@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SetRecord",
+  "type": "object",
+  "required": ["schema_version","set_id","exercise","camera_view","fps","start_t","end_t","reps","frames"],
+  "properties": {
+    "schema_version": {"type":"string","const":"0.1"},
+    "set_id": {"type":"string"},
+    "exercise": {"type":"string"},
+    "camera_view": {"enum":["side","front","rear"]},
+    "fps": {"type":"number"},
+    "start_t": {"type":"number"},
+    "end_t": {"type":"number"},
+    "clip_path": {"type":["string","null"]},
+    "load_kg": {"type":["number","null"]},
+    "px_per_mm": {"type":["number","null"]},
+    "reps": {"type":"array","items":{"type":"object",
+      "required":["rep_idx","start_t","bottom_t","end_t"],
+      "properties":{"rep_idx":{"type":"integer"},"start_t":{"type":"number"},"bottom_t":{"type":"number"},"end_t":{"type":"number"}}}},
+    "frames": {"type":"array","items":{"type":"object",
+      "required":["t","frame_idx","keypoints"],
+      "properties":{
+        "t":{"type":"number"},"frame_idx":{"type":"integer"},
+        "keypoints":{"type":"array","minItems":17,"maxItems":17,"items":{"type":"array","minItems":3,"maxItems":3,"items":{"type":"number"}}},
+        "bar_left":{"type":["array","null"],"items":{"type":"number"}},
+        "bar_right":{"type":["array","null"],"items":{"type":"number"}}}}}
+  }
+}

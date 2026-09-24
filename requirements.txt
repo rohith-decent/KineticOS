@@ -1,0 +1,14 @@
+ultralytics>=8.3
+mediapipe
+opencv-python
+numpy
+scipy
+pandas
+pydantic>=2
+fastapi
+uvicorn[standard]
+sqlalchemy
+aiosqlite
+ffmpeg-python
+onnxruntime
+pytest

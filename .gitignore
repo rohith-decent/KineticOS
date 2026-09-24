@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+data/raw/
+*.mp4
+*.pt
+*.onnx
+.env
