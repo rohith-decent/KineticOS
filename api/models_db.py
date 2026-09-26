@@ -25,3 +25,4 @@ class SetDB(Base):
     total_reps = Column(Integer)
     report_data = Column(JSON) # Stores B3 SetReport JSON output
     session = relationship("SessionDB", back_populates="sets")
+

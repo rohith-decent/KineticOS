@@ -3,28 +3,50 @@ from typing import Any, Dict, List, Optional
 from pydantic import BaseModel, Field, model_validator
 
 class Keypoint(BaseModel):
-    x: float
-    y: float
-    confidence: float = 1.0
+  x: float
+  y: float
+  confidence: float = 1.0
 
-    @model_validator(mode="before")
-    @classmethod
-    def parse_tuple_or_list(cls, data: Any):
-        if isinstance(data, (list, tuple)):
-            if len(data) >= 3:
-                return {"x": float(data[0]), "y": float(data[1]), "confidence": float(data[2])}
-            elif len(data) == 2:
-                return {"x": float(data[0]), "y": float(data[1]), "confidence": 1.0}
-        return data
+  @model_validator(mode="before")
+  @classmethod
+  def parse_tuple_or_list(cls, data: Any):
+    if isinstance(data, (list, tuple)):
+      if len(data) >= 3:
+        return {
+            "x": float(data[0]),
+            "y": float(data[1]),
+            "confidence": float(data[2]),
+        }
+      elif len(data) == 2:
+        return {"x": float(data[0]), "y": float(data[1]), "confidence": 1.0}
+    return data
 
-    def __getitem__(self, item: int) -> float:
-        if item == 0:
-            return self.x
-        elif item == 1:
-            return self.y
-        elif item == 2:
-            return self.confidence
-        raise IndexError("Keypoint index out of range (0-2)")
+  def __iter__(self):
+    yield self.x
+    yield self.y
+    yield self.confidence
+
+  def __getitem__(self, item: int) -> float:
+    if item == 0:
+      return self.x
+    elif item == 1:
+      return self.y
+    elif item == 2:
+      return self.confidence
+    raise IndexError("Keypoint index out of range (0-2)")
+
+  def __eq__(self, other: Any) -> bool:
+    if isinstance(other, (list, tuple)):
+      if len(other) == 3:
+        return (self.x, self.y, self.confidence) == (
+            float(other[0]),
+            float(other[1]),
+            float(other[2]),
+        )
+      elif len(other) == 2:
+        return (self.x, self.y) == (float(other[0]), float(other[1]))
+      return False
+    return super().__eq__(other)
 
 class FrameData(BaseModel):
     t: float
@@ -90,14 +112,17 @@ class SetReport(BaseModel):
     schema_version: str = "1.0.0"
     set_id: str
     exercise: str
-    load_kg: float
+    load_kg: Optional[float] = None
     total_reps: int
     overall_velocity_loss_pct: float
     estimated_rpe: Optional[float] = None
     micro_cues: List[str] = Field(default_factory=list)
     reps: List[RepReport]
     symmetry: Optional[SetSymmetryReport] = None
-    disclaimer: str = "Velocity and RPE metrics are estimated flags and trends, not clinical diagnostics."
+    disclaimer: str = (
+        "Velocity and RPE metrics are estimated flags and trends, not clinical"
+        " diagnostics."
+    )
 
 class SetRecord(BaseModel):
     schema_version: str = "1.0.0"
@@ -108,7 +133,7 @@ class SetRecord(BaseModel):
     start_t: float
     end_t: float
     clip_path: str
-    load_kg: float
-    px_per_mm: float
-    reps: List[RepInterval]
-    frames: List[FrameData]
+    load_kg: Optional[float] = None
+    px_per_mm: Optional[float] = None
+    reps: List[RepInterval] = Field(default_factory=list)
+    frames: List[FrameData] = Field(default_factory=list)
