@@ -1,8 +1,18 @@
+# Environments & Python
 venv/
 .venv/
-*.db
 __pycache__/
 *.pyc
-node_modules/
+*.pyo
 .pytest_cache/
+*.db
+
+# Frontend
+node_modules/
 dist/
+.DS_Store
+
+# Media & Weights
+clips/*.mp4
+*.pt
+*.onnxgit

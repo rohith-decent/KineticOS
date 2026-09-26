@@ -1,15 +1,17 @@
-ultralytics>=8.3
-mediapipe
-opencv-python
-numpy>=1.26.0
-scipy>=1.12.0
-pandas
-pydantic>=2.6.0
+# Role A - Perception & Computer Vision
+ultralytics>=8.3.0
+opencv-python>=4.9.0
+mediapipe>=0.10.0
+
+# Role B - Biomechanics, Analytics & API
 fastapi>=0.110.0
 uvicorn[standard]>=0.28.0
+pydantic>=2.6.0
 sqlalchemy>=2.0.0
-aiosqlite
-ffmpeg-python
-onnxruntime
+numpy>=1.26.0
+scipy>=1.12.0
+python-multipart>=0.0.9
+
+# Shared / Testing & Dev
 pytest>=8.0.0
 ruff>=0.3.0
