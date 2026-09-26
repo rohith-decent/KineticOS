@@ -65,16 +65,54 @@ class OneEuroFilter:
         return x_hat
 
 
+def select_person_idx(
+    boxes_xyxy: np.ndarray,
+    kpts_all: np.ndarray,
+    last_kp: Optional[np.ndarray],
+    frame_wh: tuple[int, int],
+    max_jump_frac: float = 0.20,
+) -> int:
+    """Pick which detected person is "the lifter", out of N candidates.
+
+    First detection ever (last_kp is None): fall back to the largest bounding
+    box, since that's the best guess with no history to go on.
+
+    Every frame after that: pick whichever candidate's hip position is
+    closest to the lifter's hip position last frame ("track continuity"),
+    not whichever box is biggest. This matters because a squat's bottom
+    position can shrink the lifter's own box -- picking "biggest box" alone
+    can jump onto a person standing further back whose box happens to be
+    momentarily bigger or steadier. If the closest candidate is still farther
+    than max_jump_frac of the frame diagonal, treat the track as lost (e.g.
+    at a hard cut) and re-acquire via the largest-box fallback.
+    """
+    areas = (boxes_xyxy[:, 2] - boxes_xyxy[:, 0]) * (boxes_xyxy[:, 3] - boxes_xyxy[:, 1])
+    if last_kp is None:
+        return int(np.argmax(areas))
+
+    last_hip = (last_kp[L_HIP, :2] + last_kp[R_HIP, :2]) / 2
+    hips = (kpts_all[:, L_HIP, :2] + kpts_all[:, R_HIP, :2]) / 2
+    dists = np.linalg.norm(hips - last_hip, axis=1)
+    idx = int(np.argmin(dists))
+
+    diag = math.hypot(frame_wh[0], frame_wh[1])
+    if dists[idx] > max_jump_frac * diag:
+        return int(np.argmax(areas))  # track lost -- re-acquire, don't guess
+    return idx
+
+
 class PoseEstimator:
-    """YOLO11-Pose wrapper. Picks the largest person (the lifter nearest the camera),
-    smooths keypoints, and holds the last good position for low-confidence joints."""
+    """YOLO11-Pose wrapper. Tracks the lifter across frames by proximity to
+    their previous position (not just "biggest box"), smooths keypoints, and
+    holds the last good position for low-confidence joints."""
 
     def __init__(self, weights: str = "yolo11n-pose.pt", conf_thr: float = 0.3,
                  imgsz: int = 640, device: Optional[str] = None, smooth: bool = True,
-                 min_cutoff: float = 1.0, beta: float = 0.02):
+                 min_cutoff: float = 1.0, beta: float = 0.02, max_jump_frac: float = 0.20):
         from ultralytics import YOLO  # lazy import: keeps unit tests light
         self.model = YOLO(weights)
         self.conf_thr, self.imgsz, self.device = conf_thr, imgsz, device
+        self.max_jump_frac = max_jump_frac
         self.filter = OneEuroFilter(min_cutoff, beta) if smooth else None
         self._last: Optional[np.ndarray] = None
 
@@ -88,8 +126,10 @@ class PoseEstimator:
         if res.keypoints is None or res.boxes is None or len(res.boxes) == 0:
             return None
         boxes = res.boxes.xyxy.cpu().numpy()
-        areas = (boxes[:, 2] - boxes[:, 0]) * (boxes[:, 3] - boxes[:, 1])
-        kp = res.keypoints.data.cpu().numpy()[int(np.argmax(areas))].copy()  # (17, 3)
+        kpts_all = res.keypoints.data.cpu().numpy()
+        h, w = frame.shape[:2]
+        idx = select_person_idx(boxes, kpts_all, self._last, (w, h), self.max_jump_frac)
+        kp = kpts_all[idx].copy()  # (17, 3)
 
         if self._last is not None:                       # confidence gating: hold last good xy
             weak = kp[:, 2] < self.conf_thr
