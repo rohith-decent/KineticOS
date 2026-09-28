@@ -4,7 +4,7 @@
   "exercise": "back_squat",
   "camera_view": "side",
   "fps": 30.021682326124424,
-  "start_t": 0.13323703703703704,
+  "start_t": 0.2664740740740741,
   "end_t": 37.9392462962963,
   "clip_path": "data/raw/squat_set1.mp4",
   "load_kg": 100.0,
@@ -12,195 +12,21 @@
   "reps": [
     {
       "rep_idx": 1,
-      "start_t": 0.133,
-      "bottom_t": 0.333,
-      "end_t": 0.666
+      "start_t": 6.329,
+      "bottom_t": 8.028,
+      "end_t": 10.759
     },
     {
       "rep_idx": 2,
-      "start_t": 4.197,
-      "bottom_t": 4.963,
-      "end_t": 5.263
+      "start_t": 24.882,
+      "bottom_t": 30.345,
+      "end_t": 30.878
     },
     {
       "rep_idx": 3,
-      "start_t": 5.996,
-      "bottom_t": 7.228,
-      "end_t": 7.495
-    },
-    {
-      "rep_idx": 4,
-      "start_t": 7.495,
-      "bottom_t": 8.927,
-      "end_t": 9.027
-    },
-    {
-      "rep_idx": 5,
-      "start_t": 9.027,
-      "bottom_t": 9.76,
-      "end_t": 10.659
-    },
-    {
-      "rep_idx": 6,
-      "start_t": 10.925,
-      "bottom_t": 11.025,
-      "end_t": 11.758
-    },
-    {
-      "rep_idx": 7,
-      "start_t": 11.758,
-      "bottom_t": 11.858,
-      "end_t": 11.958
-    },
-    {
-      "rep_idx": 8,
-      "start_t": 11.958,
-      "bottom_t": 12.058,
-      "end_t": 13.324
-    },
-    {
-      "rep_idx": 9,
-      "start_t": 13.324,
-      "bottom_t": 13.957,
-      "end_t": 14.223
-    },
-    {
-      "rep_idx": 10,
-      "start_t": 14.223,
-      "bottom_t": 14.623,
-      "end_t": 14.923
-    },
-    {
-      "rep_idx": 11,
-      "start_t": 14.923,
-      "bottom_t": 15.156,
-      "end_t": 15.489
-    },
-    {
-      "rep_idx": 12,
-      "start_t": 15.489,
-      "bottom_t": 15.922,
-      "end_t": 16.555
-    },
-    {
-      "rep_idx": 13,
-      "start_t": 16.555,
-      "bottom_t": 17.088,
-      "end_t": 17.721
-    },
-    {
-      "rep_idx": 14,
-      "start_t": 17.721,
-      "bottom_t": 18.253,
-      "end_t": 18.453
-    },
-    {
-      "rep_idx": 15,
-      "start_t": 18.453,
-      "bottom_t": 18.753,
-      "end_t": 19.086
-    },
-    {
-      "rep_idx": 16,
-      "start_t": 19.086,
-      "bottom_t": 19.752,
-      "end_t": 20.285
-    },
-    {
-      "rep_idx": 17,
-      "start_t": 20.285,
-      "bottom_t": 20.752,
-      "end_t": 21.385
-    },
-    {
-      "rep_idx": 18,
-      "start_t": 21.385,
-      "bottom_t": 21.651,
-      "end_t": 21.751
-    },
-    {
-      "rep_idx": 19,
-      "start_t": 21.751,
-      "bottom_t": 22.084,
-      "end_t": 22.517
-    },
-    {
-      "rep_idx": 20,
-      "start_t": 22.517,
-      "bottom_t": 23.117,
-      "end_t": 24.016
-    },
-    {
-      "rep_idx": 21,
-      "start_t": 24.016,
-      "bottom_t": 24.282,
-      "end_t": 24.682
-    },
-    {
-      "rep_idx": 22,
-      "start_t": 24.949,
-      "bottom_t": 25.182,
-      "end_t": 25.248
-    },
-    {
-      "rep_idx": 23,
-      "start_t": 25.248,
-      "bottom_t": 29.345,
-      "end_t": 29.579
-    },
-    {
-      "rep_idx": 24,
-      "start_t": 29.978,
-      "bottom_t": 30.245,
-      "end_t": 30.711
-    },
-    {
-      "rep_idx": 25,
-      "start_t": 30.711,
-      "bottom_t": 31.344,
-      "end_t": 32.843
-    },
-    {
-      "rep_idx": 26,
-      "start_t": 32.843,
+      "start_t": 31.078,
       "bottom_t": 32.943,
-      "end_t": 33.209
-    },
-    {
-      "rep_idx": 27,
-      "start_t": 33.209,
-      "bottom_t": 33.309,
-      "end_t": 33.842
-    },
-    {
-      "rep_idx": 28,
-      "start_t": 33.842,
-      "bottom_t": 34.042,
-      "end_t": 34.575
-    },
-    {
-      "rep_idx": 29,
-      "start_t": 34.575,
-      "bottom_t": 34.775,
-      "end_t": 35.208
-    },
-    {
-      "rep_idx": 30,
-      "start_t": 35.208,
-      "bottom_t": 35.341,
-      "end_t": 35.608
-    },
-    {
-      "rep_idx": 31,
-      "start_t": 35.608,
-      "bottom_t": 36.34,
-      "end_t": 37.306
-    },
-    {
-      "rep_idx": 32,
-      "start_t": 37.306,
-      "bottom_t": 37.54,
-      "end_t": 37.706
+      "end_t": 34.742
     }
   ],
   "frames": [
